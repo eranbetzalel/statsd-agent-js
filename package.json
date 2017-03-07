@@ -1,0 +1,10 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "dependencies": {
+    "change-case": "^3.0.1",
+    "console-stamp": "^0.2.5",
+    "debug": "^2.6.1",
+    "statsd-client": "^0.2.4"
+  }
+}
