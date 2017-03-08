@@ -18,7 +18,7 @@ class CpuMonitor extends Monitor {
             nice: 0,
             sys: 0,
             idle: 0,
-            irq: 0,
+            irq: 0
         };
 
         let avgCpuTimes = {
@@ -26,7 +26,7 @@ class CpuMonitor extends Monitor {
             nice: new Average(),
             sys: new Average(),
             idle: new Average(),
-            irq: new Average(),
+            irq: new Average()
         };
 
         let minCpuTimes = {
@@ -34,7 +34,7 @@ class CpuMonitor extends Monitor {
             nice: 0,
             sys: 0,
             idle: 0,
-            irq: 0,
+            irq: 0
         };
 
         for (let i = 0; i < cpus.length; i++) {
@@ -80,7 +80,7 @@ class CpuMonitor extends Monitor {
             ['times.nice.min', minCpuTimes.nice],
             ['times.sys.min', minCpuTimes.sys],
             ['times.idle.min', minCpuTimes.idle],
-            ['times.irq.min', minCpuTimes.irq],
+            ['times.irq.min', minCpuTimes.irq]
         ]);
     }
 }
