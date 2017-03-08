@@ -1,6 +1,8 @@
 {
   "name": "statsd-agent-js",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "Statsd client to monitor CPU, Memory, Disk and Network based on Node JS",
+  "main": "app.js",
   "dependencies": {
     "bluebird": "^3.5.0",
     "change-case": "^3.0.1",
@@ -9,5 +11,16 @@
     "diskusage": "^0.2.1",
     "drivelist": "^5.0.16",
     "statsd-client": "^0.2.4"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eranbetzalel/statsd-agent-js.git"
+  },
+  "author": "Eran Betzalel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eranbetzalel/statsd-agent-js/issues"
+  },
+  "homepage": "https://github.com/eranbetzalel/statsd-agent-js#readme"
 }
