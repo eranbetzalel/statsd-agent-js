@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    monitorFilenames: ['cpu-monitor'],
+    monitorFilenames: ['cpu-monitor', 'memory-monitor', 'disk-monitor'],
     collectStatisticsInterval: 10 * 1000,
     sendStatisticsInterval: 10 * 1000,
     statsdConfig: {

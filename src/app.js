@@ -1,6 +1,7 @@
 'use strict';
 
-require('console-stamp')(console, { pattern : "dd HH:MM:ss.l" });
+require('console-stamp')(console, {pattern: "dd HH:MM:ss.l"});
+require('./utils/bluebird-extensions');
 
 const config = require('./config');
 
@@ -9,11 +10,19 @@ const debug = require('debug')('statsd-agent');
 const monitors = [];
 
 function loadMonitors() {
-    const monitorFilename = config.monitorFilenames;
+    const monitorFilenames = config.monitorFilenames;
 
-    const Monitor = require(`./monitors/${monitorFilename}.js`);
+    for (let i = 0; i < monitorFilenames.length; i++) {
+        const monitorFilename = monitorFilenames[i];
 
-    monitors.push(new Monitor());
+        try {
+            const Monitor = require(`./monitors/${monitorFilename}.js`);
+
+            monitors.push(new Monitor());
+        } catch (err) {
+            console.error(`Could not load monitor ${monitorFilename}`);
+        }
+    }
 
     console.log(`${monitors.length} monitors loaded.`);
 }

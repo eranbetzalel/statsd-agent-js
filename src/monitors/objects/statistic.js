@@ -1,6 +1,7 @@
 'use strict';
 
 const StatsDClient = require('statsd-client');
+const changeCase = require('change-case');
 const config = require('../../config');
 
 const debug = require('debug')('statsd-agent:statistic');
@@ -9,7 +10,7 @@ const statsdClient = new StatsDClient(config.statsdConfig);
 
 class Statistic {
     constructor(statsdName, value) {
-        this.statsdName = statsdName;
+        this.statsdName = statsdName.split('.').map(s => changeCase.snakeCase(s)).join('.');
         this.value = value;
     }
 

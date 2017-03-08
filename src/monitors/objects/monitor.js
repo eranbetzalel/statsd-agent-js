@@ -1,13 +1,12 @@
 'use strict';
 
 const os = require('os');
-const changeCase = require('change-case');
 
 const Statistic = require('./statistic');
 
 const debug = require('debug')('statsd-agent:monitor');
 
-const hostname = changeCase.snakeCase(os.hostname());
+const hostname = os.hostname();
 
 class Monitor {
     constructor(name) {
