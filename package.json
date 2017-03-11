@@ -1,6 +1,6 @@
 {
   "name": "statsd-agent-js",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Statsd client to monitor CPU, Memory, Disk and Network based on Node JS",
   "main": "app.js",
   "dependencies": {
