@@ -3,7 +3,6 @@
 const os = require('os');
 
 const Monitor = require('./objects/monitor');
-const Average = require('../utils/average');
 
 class CpuMonitor extends Monitor {
     constructor() {
@@ -11,25 +10,46 @@ class CpuMonitor extends Monitor {
     }
 
     collect() {
+        const intervalCpuTimes = this.getIntervalCpuTimes();
+
+        if (intervalCpuTimes == null)
+            return;
+
+        this.setStatistics([
+            ['user', intervalCpuTimes.user],
+            ['nice', intervalCpuTimes.nice],
+            ['sys', intervalCpuTimes.sys],
+            ['idle', intervalCpuTimes.idle],
+            ['irq', intervalCpuTimes.irq]
+        ])
+    }
+
+    getIntervalCpuTimes() {
+        const newCpuTimes = this.getCpuTimes();
+
+        if (this.currentCpuTimes == null) {
+            this.currentCpuTimes = newCpuTimes;
+
+            return null;
+        }
+
+        const intervalCpuTimes = {
+            user: newCpuTimes.user - this.currentCpuTimes.user,
+            nice: newCpuTimes.nice - this.currentCpuTimes.nice,
+            sys: newCpuTimes.sys - this.currentCpuTimes.sys,
+            idle: newCpuTimes.idle - this.currentCpuTimes.idle,
+            irq: newCpuTimes.irq - this.currentCpuTimes.irq
+        };
+
+        this.currentCpuTimes = newCpuTimes;
+
+        return intervalCpuTimes;
+    }
+
+    getCpuTimes() {
         const cpus = os.cpus();
 
-        let maxCpuTimes = {
-            user: 0,
-            nice: 0,
-            sys: 0,
-            idle: 0,
-            irq: 0
-        };
-
-        let avgCpuTimes = {
-            user: new Average(),
-            nice: new Average(),
-            sys: new Average(),
-            idle: new Average(),
-            irq: new Average()
-        };
-
-        let minCpuTimes = {
+        const newCpuTimes = {
             user: 0,
             nice: 0,
             sys: 0,
@@ -38,50 +58,16 @@ class CpuMonitor extends Monitor {
         };
 
         for (let i = 0; i < cpus.length; i++) {
-            const cpu = cpus[i];
+            let cpu = cpus[i];
 
-            const cpuTimes = cpu.times;
-
-            minCpuTimes = {
-                user: Math.min(minCpuTimes.user, cpuTimes.user),
-                nice: Math.min(minCpuTimes.nice, cpuTimes.nice),
-                sys: Math.min(minCpuTimes.sys, cpuTimes.sys),
-                idle: Math.min(minCpuTimes.idle, cpuTimes.idle),
-                irq: Math.min(minCpuTimes.irq, cpuTimes.irq)
-            };
-
-            avgCpuTimes.user.add(cpuTimes.user);
-            avgCpuTimes.nice.add(cpuTimes.nice);
-            avgCpuTimes.sys.add(cpuTimes.sys);
-            avgCpuTimes.idle.add(cpuTimes.idle);
-            avgCpuTimes.irq.add(cpuTimes.irq);
-
-            maxCpuTimes = {
-                user: Math.max(maxCpuTimes.user, cpuTimes.user),
-                nice: Math.max(maxCpuTimes.nice, cpuTimes.nice),
-                sys: Math.max(maxCpuTimes.sys, cpuTimes.sys),
-                idle: Math.max(maxCpuTimes.idle, cpuTimes.idle),
-                irq: Math.max(maxCpuTimes.irq, cpuTimes.irq)
-            };
+            newCpuTimes.user += cpu.times.user;
+            newCpuTimes.nice += cpu.times.nice;
+            newCpuTimes.sys += cpu.times.sys;
+            newCpuTimes.idle += cpu.times.idle;
+            newCpuTimes.irq += cpu.times.irq;
         }
 
-        this.setStatistics([
-            ['times.user.max', maxCpuTimes.user],
-            ['times.nice.max', maxCpuTimes.nice],
-            ['times.sys.max', maxCpuTimes.sys],
-            ['times.idle.max', maxCpuTimes.idle],
-            ['times.irq.max', maxCpuTimes.irq],
-            ['times.user.avg', avgCpuTimes.user.calculateAverage()],
-            ['times.nice.avg', avgCpuTimes.nice.calculateAverage()],
-            ['times.sys.avg', avgCpuTimes.sys.calculateAverage()],
-            ['times.idle.avg', avgCpuTimes.idle.calculateAverage()],
-            ['times.irq.avg', avgCpuTimes.irq.calculateAverage()],
-            ['times.user.min', minCpuTimes.user],
-            ['times.nice.min', minCpuTimes.nice],
-            ['times.sys.min', minCpuTimes.sys],
-            ['times.idle.min', minCpuTimes.idle],
-            ['times.irq.min', minCpuTimes.irq]
-        ]);
+        return newCpuTimes;
     }
 }
 

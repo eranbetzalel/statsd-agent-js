@@ -57,7 +57,6 @@ function start() {
     setInterval(collectStatistics, config.collectStatisticsInterval);
 
     console.log('Start sending statistics...');
-    sendStatistics();
     setInterval(sendStatistics, config.sendStatisticsInterval);
 }
 
