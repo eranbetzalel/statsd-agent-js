@@ -15,12 +15,15 @@ class CpuMonitor extends Monitor {
         if (intervalCpuTimes == null)
             return;
 
+        const totalIntervalCpuTime =
+            intervalCpuTimes.user + intervalCpuTimes.nice + intervalCpuTimes.sys + intervalCpuTimes.idle + intervalCpuTimes.irq;
+
         this.setStatistics([
-            ['user', intervalCpuTimes.user],
-            ['nice', intervalCpuTimes.nice],
-            ['sys', intervalCpuTimes.sys],
-            ['idle', intervalCpuTimes.idle],
-            ['irq', intervalCpuTimes.irq]
+            ['user', ((intervalCpuTimes.user / totalIntervalCpuTime) * 100).toFixed(2)],
+            ['nice', ((intervalCpuTimes.nice / totalIntervalCpuTime) * 100).toFixed(2)],
+            ['sys', ((intervalCpuTimes.sys / totalIntervalCpuTime) * 100).toFixed(2)],
+            ['idle', ((intervalCpuTimes.idle / totalIntervalCpuTime) * 100).toFixed(2)],
+            ['irq', ((intervalCpuTimes.irq / totalIntervalCpuTime) * 100).toFixed(2)]
         ])
     }
 
