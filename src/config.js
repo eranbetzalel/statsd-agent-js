@@ -5,6 +5,8 @@ module.exports = {
     collectStatisticsInterval: 10 * 1000,
     sendStatisticsInterval: 10 * 1000,
     statsdConfig: {
-        host: 'localhost'
+        prefix: 'system',
+        host: 'localhost',
+        debug: false
     }
 };
