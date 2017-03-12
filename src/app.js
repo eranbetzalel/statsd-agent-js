@@ -20,7 +20,7 @@ function loadMonitors() {
 
             monitors.push(new Monitor());
         } catch (err) {
-            console.error(`Could not load monitor ${monitorFilename}`);
+            console.error(`Could not load monitor ${monitorFilename}`, err.stack || err);
         }
     }
 
