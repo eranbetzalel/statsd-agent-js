@@ -26,9 +26,9 @@ class DiskMonitor extends Monitor {
                         const deviceMountPathStatsdName = deviceMountPath.replace(':', '');
 
                         return [
-                            [`${deviceMountPathStatsdName}.available`, deviceInfo.available],
                             [`${deviceMountPathStatsdName}.free`, deviceInfo.free],
-                            [`${deviceMountPathStatsdName}.total`, deviceInfo.total]
+                            [`${deviceMountPathStatsdName}.total`, deviceInfo.total],
+                            [`${deviceMountPathStatsdName}.used`, deviceInfo.total - deviceInfo.free]
                         ];
                     })
                     .catch(err => {
