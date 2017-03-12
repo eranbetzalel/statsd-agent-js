@@ -1,12 +1,20 @@
 'use strict';
 
+const _ = require('underscore');
 const os = require('os');
+const config = require('../../config');
 
 const Statistic = require('./statistic');
 
 const debug = require('debug')('statsd-agent:monitor');
 
 const hostname = os.hostname();
+
+let statisticBlackList;
+
+if (!_.isEmpty(config.statisticBlackList)) {
+    statisticBlackList = new Set(config.statisticBlackList.map(statisticName => statisticName.toLowerCase()));
+}
 
 class Monitor {
     constructor(name) {
@@ -15,11 +23,18 @@ class Monitor {
     }
 
     setStatistics(statisticsPairs) {
-        debug('Setting statistics...', statisticsPairs);
+        debug('Setting statistics (%s)...', this.name, statisticsPairs);
+
+        if (statisticBlackList) {
+            statisticsPairs =
+                statisticsPairs
+                    .filter(statisticsPair => !statisticBlackList.has(`${this.name}.${statisticsPair[0]}`.toLowerCase()));
+        }
 
         this.statistics =
-            statisticsPairs.map(
-                statisticsPair => new Statistic(`${hostname}.${this.name}.${statisticsPair[0]}`, statisticsPair[1]));
+            statisticsPairs
+                .map(statisticsPair =>
+                    new Statistic(`${hostname}.${this.name}.${statisticsPair[0]}`, statisticsPair[1]));
     }
 
     sendStatistics() {

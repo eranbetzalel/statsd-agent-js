@@ -16,15 +16,17 @@ npm start
 
 ## Configuration
  * *monitorFilenames* - The monitor filenames relative to the monitors directory.
-   * Default: ['cpu-monitor', 'memory-monitor', 'disk-monitor', 'network-monitor']
+   * Default: `['cpu-monitor', 'memory-monitor', 'disk-monitor', 'network-monitor']`
  * *collectStatisticsInterval* - The time interval (ms) to collect statistics.
-   * Default: 10000
+   * Default: `10000`
  * *sendStatisticsInterval* - The time interval (ms) to send statistics.
-   * Default: 10000
- * *statsdConfig* - The [```statsd-client```][statsd-client] package configuration
+   * Default: `10000`
+ * *statsdConfig* - The [`statsd-client`][statsd-client] package configuration
    * host (default: 'localhost') - Where to send the stats
    * prefix (default: 'system') - Prefix all stats with this value
    * debug (default: 'false') - Print what is being sent to stderr
+ * *statisticBlackList* - Array of statistic names ([monitor].[statistic]) to ignore while sending data to statsd.
+   * Example: `['memory.used']`
 
 ## Running/Stopping (Linux)
 Use [forever service][forever-service] to install the agent as linux service.
@@ -60,9 +62,9 @@ The package delivers with the following monitors:
     * *memory.free* - free memory (bytes)
     * *memory.used* - used memory (bytes)
   * **Disk** - Sends the usage percentage for any available mount points.
-    * *disk.(mount-point).total* - total memory (bytes)
-    * *disk.(mount-point).free* - free memory (bytes)
-    * *disk.(mount-point).used* - used memory (bytes)
+    * *disk.[mount-point].total* - total memory (bytes)
+    * *disk.[mount-point].free* - free memory (bytes)
+    * *disk.[mount-point].used* - used memory (bytes)
   * **Network** - Sends a count of the current connection states.
     * *network.established* - The socket has an established connection
     * *network.syn_sent* - The socket is actively attempting to establish a connection
