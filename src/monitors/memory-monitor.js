@@ -16,7 +16,7 @@ class MemoryMonitor extends Monitor {
         this.setStatistics([
             ['free', freemem],
             ['total', totalmem],
-            ['available', totalmem - freemem],
+            ['used', totalmem - freemem],
         ]);
     }
 }
