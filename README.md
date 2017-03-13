@@ -31,7 +31,7 @@ npm start
 ## Running/Stopping (Linux)
 Use [forever service][forever-service] to install the agent as linux service.
 ```
-sudo forever-service install statsd-agent-js -s src\app.js
+sudo forever-service install statsd-agent-js -s src/app.js
 ```
 
 Use the following commands to run/stop statsd-agent-js:
