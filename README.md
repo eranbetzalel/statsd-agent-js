@@ -15,7 +15,7 @@ npm start
 -->
 
 ## Configuration
-The configurations is loaded from `config.custom.js`. If the file does not exists - it will be created from `config.default.js`. 
+The configuration is loaded from `config.custom.js`. If the file does not exists - it will be created from `config.default.js`. 
  * *monitorFilenames* - The monitor filenames relative to the monitors directory.
    * Default: `['cpu-monitor', 'memory-monitor', 'disk-monitor', 'network-monitor']`
  * *collectStatisticsInterval* - The time interval (ms) to collect statistics.
