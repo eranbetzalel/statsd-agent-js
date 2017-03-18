@@ -2,12 +2,15 @@
 
 const _ = require('underscore');
 const netstat = require('node-netstat');
+const changeCase = require('change-case');
 
 const Monitor = require('./objects/monitor');
 
 class NetworkMonitor extends Monitor {
     constructor() {
         super('network');
+
+        this.connectionsStatesCountStatsd = {};
     }
 
     collect() {
@@ -17,8 +20,23 @@ class NetworkMonitor extends Monitor {
             filter: {
                 protocol: 'tcp'
             },
-            done: (x, y) => this.setStatistics(_.chain(connections).countBy('state').pairs().value())
+            done: () => {
+                const fullConnectionsStatesCount = this.getStatistics(connections);
+
+                this.setStatistics(fullConnectionsStatesCount);
+            }
         }, (connection) => connections.push(connection));
+    }
+
+    getStatistics(connections) {
+        const connectionsStatesCount = _.countBy(connections, 'state');
+
+        for (let connectionState in connectionsStatesCount) {
+            this.connectionsStatesCountStatsd[changeCase.snakeCase(connectionState)] =
+                connectionsStatesCount[connectionState];
+        }
+
+        return _.pairs(this.connectionsStatesCountStatsd);
     }
 }
 
