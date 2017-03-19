@@ -24,7 +24,7 @@ class CpuMonitor extends Monitor {
             ['sys', ((intervalCpuTimes.sys / totalIntervalCpuTime) * 100).toFixed(2)],
             ['idle', ((intervalCpuTimes.idle / totalIntervalCpuTime) * 100).toFixed(2)],
             ['irq', ((intervalCpuTimes.irq / totalIntervalCpuTime) * 100).toFixed(2)]
-        ])
+        ]);
     }
 
     getIntervalCpuTimes() {
