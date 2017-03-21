@@ -3,8 +3,11 @@
 const _ = require('underscore');
 const netstat = require('node-netstat');
 const changeCase = require('change-case');
+const socketStatisticsUtil = require('../utils/socket-statistics-util');
 
 const Monitor = require('./objects/monitor');
+
+const isPlatformLinux = process.platform === 'linux';
 
 class NetworkMonitor extends Monitor {
     constructor() {
@@ -14,6 +17,23 @@ class NetworkMonitor extends Monitor {
     }
 
     collect() {
+        if (isPlatformLinux) {
+            this.collectLinuxPlatform();
+        } else {
+            this.collectOtherPlatform();
+        }
+    }
+
+    collectLinuxPlatform() {
+        socketStatisticsUtil
+            .getTcpStateCounts()
+            .then(tcpStateCounts => {
+                this.setStatistics(_.pairs(tcpStateCounts));
+            })
+            .catchConsoleError();
+    }
+
+    collectOtherPlatform() {
         const connections = [];
 
         netstat({
