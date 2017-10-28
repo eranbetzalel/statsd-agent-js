@@ -10,6 +10,7 @@
     "debug": "^2.6.2",
     "diskusage": "^0.2.1",
     "drivelist": "^5.0.16",
+    "free-memory": "^1.0.0",
     "fs-extra": "^2.0.0",
     "node-netstat": "^1.4.1",
     "statsd-client": "^0.2.4",
