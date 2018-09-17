@@ -4,17 +4,17 @@
   "description": "Statsd client to monitor CPU, Memory, Disk and Network based on Node JS",
   "main": "app.js",
   "dependencies": {
-    "bluebird": "^3.5.1",
+    "bluebird": "^3.5.2",
     "change-case": "^3.0.2",
     "console-stamp": "^0.2.6",
-    "debug": "^3.1.0",
+    "debug": "^4.0.1",
     "diskusage": "^0.2.4",
-    "drivelist": "^6.3.0",
+    "drivelist": "^6.4.3",
     "free-memory": "^1.0.0",
     "fs-extra": "^7.0.0",
+    "hot-shots": "^5.9.0",
     "node-netstat": "^1.4.1",
-    "hot-shots": "^5.8.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.9.1"
   },
   "devDependencies": {},
   "repository": {

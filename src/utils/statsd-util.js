@@ -12,7 +12,7 @@ const statsdClient = new StatsdClient({
     cacheDns: true,
     telegraf: true,
     errorHandler: err => console.error(err.stack || err),
-    prefix: statsdConfig.prefix,
+    prefix: `${statsdConfig.prefix}.`,
     globalTags: {host: os.hostname()}
 });
 
